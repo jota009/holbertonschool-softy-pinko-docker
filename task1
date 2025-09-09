@@ -1,0 +1,1 @@
+docker build -t softy-pinko:task1 .
