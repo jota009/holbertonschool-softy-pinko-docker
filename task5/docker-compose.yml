@@ -5,16 +5,29 @@ services:
     build:
       context: ./back-end
       dockerfile: Dockerfile
-    image: softy-pinko-back-end:task4
-    ports:
-      - "5252:5252"
+    image: softy-pinko-back-end:task5
+    # No external port mapping - only internal access
+    expose:
+      - "5252"
 
   front-end:
     build:
       context: ./front-end
       dockerfile: Dockerfile
-    image: softy-pinko-front-end:task4
-    ports:
-      - "9000:9000"
+    image: softy-pinko-front-end:task5
+    # No external port mapping - only internal access
+    expose:
+      - "9000"
     depends_on:
+      - back-end
+
+  proxy:
+    build:
+      context: ./proxy
+      dockerfile: Dockerfile
+    image: softy-pinko-proxy:task5
+    ports:
+      - "80:80"  # Only the proxy is accessible from outside
+    depends_on:
+      - front-end
       - back-end
